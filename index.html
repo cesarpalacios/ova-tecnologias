@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OVA · Tecnologías Emergentes — Proyecto Sede Caribe</title>
+<style>
+:root { --verde:#0b3d33; --verde2:#0f6257; --dorado:#e8a13d; --claro:#f4f9f7; --tinta:#1c2833; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',Arial,sans-serif; color:var(--tinta); background:#fff; line-height:1.55; }
+header { background:var(--verde); color:#fff; padding:26px 18px 22px; text-align:center; }
+header .kicker { color:var(--dorado); font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+header h1 { font-size:clamp(22px,4vw,34px); margin:6px 0 4px; }
+header .sub { font-size:14px; color:#cfe8e0; }
+header .un { margin-top:10px; font-size:11.5px; color:#9fc6bc; }
+nav { position:sticky; top:0; background:#fff; border-bottom:2px solid var(--claro); display:flex; justify-content:center; flex-wrap:wrap; gap:4px; padding:8px; z-index:10; }
+nav a { color:var(--verde); text-decoration:none; font-weight:600; font-size:13.5px; padding:7px 14px; border-radius:18px; }
+nav a:hover, nav a.act { background:var(--claro); }
+main { max-width:960px; margin:0 auto; padding:24px 16px; }
+section { scroll-margin-top:70px; margin-bottom:34px; }
+h2 { color:var(--verde); font-size:22px; border-left:6px solid var(--dorado); padding-left:12px; margin-bottom:14px; }
+.obj { background:var(--claro); border:1px solid #d8e8e2; border-radius:10px; padding:16px 18px; margin-bottom:14px; }
+.obj b { color:var(--verde); }
+.tarjetas { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+.comp { background:#fff; border:1.5px solid #cfe0da; border-radius:10px; padding:16px; box-shadow:0 2px 6px rgba(11,61,51,.06); }
+.comp .ic { font-size:30px; }
+.comp h3 { color:var(--verde); font-size:15.5px; margin:6px 0 4px; }
+.comp p { font-size:13.5px; color:#4a5a55; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+.chip { background:var(--verde); color:#fff; font-size:12.5px; padding:5px 12px; border-radius:14px; }
+.meta { border:2px dashed var(--dorado); background:#fffbf0; border-radius:10px; padding:14px 16px; font-size:14.5px; margin-top:14px; }
+.gridtech { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; }
+.flip { perspective:1000px; height:270px; cursor:pointer; }
+.inner { position:relative; width:100%; height:100%; transition:transform .55s; transform-style:preserve-3d; }
+.flip.vuelta .inner { transform:rotateY(180deg); }
+.cara { position:absolute; inset:0; backface-visibility:hidden; border-radius:12px; padding:18px; display:flex; flex-direction:column; }
+.frente { background:var(--verde); color:#fff; align-items:center; justify-content:center; text-align:center; }
+.frente .ic { font-size:44px; }
+.frente h3 { font-size:18px; margin-top:10px; }
+.frente small { color:#cfe8e0; margin-top:8px; font-size:11.5px; }
+.dorso { background:var(--claro); border:1.5px solid var(--verde2); transform:rotateY(180deg); font-size:12.8px; overflow:auto; }
+.dorso h4 { color:var(--verde); margin-bottom:6px; font-size:14px; }
+.dorso p { margin-bottom:6px; }
+.dorso b { color:var(--verde); }
+.quiz { background:#fff; border:1.5px solid #cfe0da; border-radius:12px; padding:18px; }
+.pq { margin-bottom:16px; padding-bottom:14px; border-bottom:1px dashed #d8e8e2; }
+.pq p.p { font-weight:600; font-size:14.5px; margin-bottom:8px; }
+label.op { display:block; border:1.5px solid #d5dbdb; border-radius:8px; padding:9px 12px; margin:6px 0; cursor:pointer; font-size:13.5px; }
+label.op:hover { border-color:var(--verde2); background:var(--claro); }
+label.op.sel { border-color:var(--verde); background:#e8f2f0; }
+.res { font-size:13px; margin-top:6px; display:none; padding:8px 12px; border-radius:8px; }
+.res.ok { display:block; background:#e6f4e6; border-left:4px solid #1d8102; }
+.res.bad { display:block; background:#fde8ec; border-left:4px solid #d1325c; }
+button.grande { background:var(--dorado); color:#3d2b00; border:none; font-size:15px; font-weight:700; padding:12px 28px; border-radius:8px; cursor:pointer; margin-top:8px; }
+button.grande:hover { background:#f0a958; }
+#resultado { text-align:center; margin-top:16px; font-size:17px; display:none; }
+#resultado .n { font-size:38px; font-weight:800; color:var(--verde); }
+footer { background:var(--verde); color:#cfe8e0; text-align:center; font-size:12px; padding:20px 14px; line-height:1.7; }
+footer b { color:#fff; }
+@media (max-width:600px){ .flip{height:300px} }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Objeto Virtual de Aprendizaje</div>
+  <h1>Tecnologías Emergentes</h1>
+  <div class="sub">¿Qué es una OVA y cuáles son las tecnologías que están transformando el mundo?</div>
+  <div class="un">Proyecto Sede Caribe · San Andrés — OPS 83-8001-2026<br>Universidad Nacional de Colombia · Sede Manizales</div>
+</header>
+
+<nav>
+  <a href="#inicio" class="act">Inicio</a>
+  <a href="#ova">¿Qué es una OVA?</a>
+  <a href="#tech">Tecnologías</a>
+  <a href="#actividad">Actividad</a>
+  <a href="#creditos">Créditos</a>
+</nav>
+
+<main>
+
+<section id="inicio">
+  <div class="obj">
+    <b>🎯 Objetivos de aprendizaje.</b> Al finalizar este OVA podrás: <b>(1)</b> explicar qué es un Objeto Virtual de Aprendizaje, sus componentes y características; <b>(2)</b> identificar las principales tecnologías emergentes y su impacto en la educación, el trabajo y los territorios como el Caribe colombiano; <b>(3)</b> autoevaluar lo aprendido con la actividad interactiva final.
+    <div class="meta">💡 <b>Este sitio es, en sí mismo, una OVA.</b> Fíjate mientras lo recorres: tiene objetivos (los acabas de leer), contenidos organizados, una actividad interactiva y una autoevaluación. Aprenderás de OVAs… dentro de una OVA.</div>
+  </div>
+</section>
+
+<section id="ova">
+  <h2>¿Qué es una OVA?</h2>
+  <div class="obj">
+    Un <b>Objeto Virtual de Aprendizaje (OVA)</b> es un recurso digital educativo <b>interactivo y autocontenido</b>, diseñado con un propósito de aprendizaje claro: combina <b>contenidos</b> (textos, imágenes, videos, simulaciones), <b>actividades</b> de práctica y <b>evaluación</b>, de forma que el estudiante pueda aprender de manera autónoma, a su propio ritmo y en cualquier momento. En Colombia, el Ministerio de Educación Nacional promueve los OVA como piezas clave de la estrategia de <b>transformación digital educativa</b>: son reutilizables por distintos docentes y cursos, accesibles desde cualquier dispositivo y medibles en su resultado.
+  </div>
+  <div class="tarjetas">
+    <div class="comp"><div class="ic">📚</div><h3>1. Contenido</h3><p>La información que se aprende: textos, diagramas, videos, simulaciones. Organizada en unidades pequeñas y claras.</p></div>
+    <div class="comp"><div class="ic">🧩</div><h3>2. Actividades</h3><p>Ejercicios interactivos donde el estudiante practica: clasificar, relacionar, experimentar, resolver retos.</p></div>
+    <div class="comp"><div class="ic">✅</div><h3>3. Evaluación</h3><p>Autoevaluación con retroalimentación inmediata: el estudiante sabe qué entendió y qué debe repasar.</p></div>
+  </div>
+  <div class="chips">
+    <span class="chip">Interactivo</span><span class="chip">Autónomo (aprende a su ritmo)</span><span class="chip">Reutilizable</span><span class="chip">Accesible desde cualquier dispositivo</span><span class="chip">Con retroalimentación</span><span class="chip">Con objetivos claros</span>
+  </div>
+</section>
+
+<section id="tech">
+  <h2>Tecnologías emergentes</h2>
+  <div class="obj">Haz <b>clic en cada tarjeta</b> para descubrir qué es la tecnología, un ejemplo real y por qué importa para el Caribe colombiano.</div>
+  <div class="gridtech">
+    <div class="flip" onclick="this.classList.toggle('vuelta')"><div class="inner">
+      <div class="cara frente"><div class="ic">🤖</div><h3>Inteligencia Artificial</h3><small>clic para voltear</small></div>
+      <div class="cara dorso"><h4>🤖 Inteligencia Artificial</h4><p><b>Qué es:</b> sistemas que aprenden de datos para reconocer patrones, predecir y generar contenido (texto, imagen, voz).</p><p><b>Ejemplo:</b> asistentes como ChatGPT o GLM; los agentes moderadores que apoyan eventos con IA como servicio.</p><p><b>Por qué importa:</b> democratiza capacidades que antes solo tenían las grandes empresas: hoy cualquier emprendedor del archipiélago puede usar IA por API, pagando por uso.</p></div>
+    </div></div>
+    <div class="flip" onclick="this.classList.toggle('vuelta')"><div class="inner">
+      <div class="cara frente"><div class="ic">☁️</div><h3>Computación en la Nube</h3><small>clic para voltear</small></div>
+      <div class="cara dorso"><h4>☁️ Computación en la Nube</h4><p><b>Qué es:</b> recursos de cómputo (servidores, almacenamiento, bases de datos) por internet, bajo demanda y pago por uso.</p><p><b>Ejemplo:</b> AWS, Azure, Google Cloud; las plataformas educativas que usa la universidad a diario.</p><p><b>Por qué importa:</b> elimina la barrera de comprar servidores: una idea se prueba sin inversión inicial y escala si funciona.</p></div>
+    </div></div>
+    <div class="flip" onclick="this.classList.toggle('vuelta')"><div class="inner">
+      <div class="cara frente"><div class="ic">📡</div><h3>Internet de las Cosas</h3><small>clic para voltear</small></div>
+      <div class="cara dorso"><h4>📡 Internet de las Cosas (IoT)</h4><p><b>Qué es:</b> objetos físicos con sensores y conexión que envían datos: desde un contador de energía hasta una boya que mide el nivel del mar.</p><p><b>Ejemplo:</b> monitoreo ambiental en zonas insulares, agricultura de precisión, ciudades inteligentes.</p><p><b>Por qué importa:</b> permite tomar decisiones con datos del territorio en tiempo real: clima, turismo, transporte.</p></div>
+    </div></div>
+    <div class="flip" onclick="this.classList.toggle('vuelta')"><div class="inner">
+      <div class="cara frente"><div class="ic">📊</div><h3>Big Data y Analítica</h3><small>clic para voltear</small></div>
+      <div class="cara dorso"><h4>📊 Big Data y Analítica</h4><p><b>Qué es:</b> técnicas para procesar volúmenes enormes de datos y convertirlos en información útil para decidir.</p><p><b>Ejemplo:</b> analizar el comportamiento de visitantes de un evento para mejorar su experiencia, o datos de matrícula para planear la oferta educativa.</p><p><b>Por qué importa:</b> lo que se mide se puede mejorar: los datos son el nuevo insumo de toda organización.</p></div>
+    </div></div>
+    <div class="flip" onclick="this.classList.toggle('vuelta')"><div class="inner">
+      <div class="cara frente"><div class="ic">🔗</div><h3>Blockchain</h3><small>clic para voltear</small></div>
+      <div class="cara dorso"><h4>🔗 Blockchain</h4><p><b>Qué es:</b> un registro digital distribuido donde las transacciones quedan encadenadas y son verificables sin un intermediario central.</p><p><b>Ejemplo:</b> certificados académicos verificables, trazabilidad de cadenas productivas (¡como el café!), pagos.</p><p><b>Por qué importa:</b> genera confianza digital sin depender de un tercero: clave para certificar y trazar.</p></div>
+    </div></div>
+    <div class="flip" onclick="this.classList.toggle('vuelta')"><div class="inner">
+      <div class="cara frente"><div class="ic">🥽</div><h3>Realidad Aumentada y Virtual</h3><small>clic para voltear</small></div>
+      <div class="cara dorso"><h4>🥽 Realidad Aumentada y Virtual</h4><p><b>Qué es:</b> la RA superpone información digital al mundo real; la RV sumerge al usuario en un entorno completamente digital.</p><p><b>Ejemplo:</b> recorridos virtuales por ecosistemas de manglar, simuladores de entrenamiento, museos interactivos.</p><p><b>Por qué importa:</b> permite explorar lo costoso o lo imposible de llevar al aula: la experiencia se vuelve accesible.</p></div>
+    </div></div>
+  </div>
+</section>
+
+<section id="actividad">
+  <h2>Actividad: autoevaluación interactiva</h2>
+  <div class="obj">Responde las 6 preguntas y presiona <b>Ver mi resultado</b>. Cada respuesta trae retroalimentación — así sabes exactamente qué repasar.</div>
+  <div class="quiz" id="quiz"></div>
+  <button class="grande" onclick="calificar()">Ver mi resultado</button>
+  <div id="resultado"></div>
+</section>
+
+<section id="creditos">
+  <h2>Créditos y referencias</h2>
+  <div class="obj" style="font-size:13.5px">
+    <b>Elaborado por:</b> Cesar Augusto Palacios Alarcón — Docente, Departamento de Informática y Computación, Universidad Nacional de Colombia — Sede Manizales.<br>
+    <b>Proyecto:</b> Tecnologías Emergentes e Innovación Digital para el Fortalecimiento de la Educación Superior en el Caribe — Orden de Prestación de Servicios No. 83-8001-2026, Sede Caribe.<br>
+    <b>Referencias:</b> Ministerio de Educación Nacional — lineamientos de contenidos digitales educativos; UNESCO — competencias digitales; informes de tendencias tecnológicas (Gartner; Horizon Report).
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <b>OVA · Tecnologías Emergentes</b> — Proyecto Sede Caribe · San Andrés<br>
+  Universidad Nacional de Colombia · OPS 83-8001-2026 · Octubre de 2026<br>
+  Recurso educativo interactivo: úsalo, compártelo, reutilízalo.
+</footer>
+
+<script>
+const QS = [
+ {p:"1. Un OVA (Objeto Virtual de Aprendizaje) se caracteriza por:", o:["Ser un video largo de clase grabada","Ser un recurso digital interactivo y autocontenido, con contenido, actividades y evaluación","Ser un examen en línea"], c:1, f:"El OVA combina los tres componentes: contenido, actividades de práctica y autoevaluación, para aprendizaje autónomo."},
+ {p:"2. ¿Cuál de estos NO es un componente típico de una OVA?", o:["Actividades interactivas","Autoevaluación con retroalimentación","Un servidor físico en el aula"], c:2, f:"El OVA vive en la web: contenido + actividades + evaluación. Nada de hardware en el aula."},
+ {p:"3. La computación en la nube se diferencia del hospedaje tradicional principalmente por:", o:["Ser más barata siempre","Poder aprovisionar recursos bajo demanda y pagar por uso, con elasticidad","Usar computadores más grandes"], c:1, f:"La nube es un modelo de consumo: bajo demanda, por internet, pago por uso y capacidad elástica."},
+ {p:"4. Que la IA se ofrezca 'como servicio' significa que:", o:["Solo las grandes empresas pueden usarla","Se consume por internet (por API) pagando por uso, sin entrenar nada propio","Hay que comprar un robot"], c:1, f:"IA como servicio: modelos entrenados que se consumen por API — el mismo principio de la nube aplicado a la inteligencia."},
+ {p:"5. Un ejemplo de Internet de las Cosas (IoT) es:", o:["Una hoja de cálculo compartida","Una boya con sensores que reporta el nivel del mar en tiempo real","Un correo electrónico"], c:1, f:"IoT = objetos con sensores y conexión que envían datos del mundo físico — ideal para monitoreo ambiental y territorial."},
+ {p:"6. La ventaja de la Realidad Virtual para la educación es que:", o:["Reemplaza a los docentes","Hace accesible la experiencia de lo costoso o imposible de llevar al aula","Solo sirve para juegos"], c:1, f:"La RV permite explorar ecosistemas, museos o simuladores sin salir del aula: experiencia accesible y segura."}
+];
+const cont = document.getElementById('quiz');
+QS.forEach((q,i)=>{
+  const d = document.createElement('div'); d.className='pq';
+  d.innerHTML = `<p class="p">${q.p}</p>` + q.o.map((o,k)=>`<label class="op" id="op${i}_${k}" onclick="sel(${i},${k})">${'ABC'[k]}. ${o}</label>`).join('') + `<div class="res" id="res${i}"></div>`;
+  cont.appendChild(d);
+});
+const escogidas = Array(QS.length).fill(-1);
+function sel(i,k){ escogidas[i]=k; for(let j=0;j<3;j++) document.getElementById(`op${i}_${j}`).classList.toggle('sel', j===k); }
+function calificar(){
+  let ok=0;
+  QS.forEach((q,i)=>{
+    const r = document.getElementById('res'+i);
+    if(escogidas[i]===q.c){ ok++; r.className='res ok'; r.innerHTML='✓ ¡Correcto! '+q.f; }
+    else { r.className='res bad'; r.innerHTML='✗ Incorrecto. '+q.f; }
+  });
+  const pct = Math.round(100*ok/QS.length), div = document.getElementById('resultado');
+  div.style.display='block';
+  div.innerHTML = `<div class="n">${pct}%</div><b>${ok} de ${QS.length} correctas</b><br>` + (pct>=80?'¡Excelente! Dominas la OVA y las tecnologías emergentes 🎉':(pct>=50?'Bien, pero repasa las tarjetas de tecnologías y vuelve a intentar 💪':'Revisa la sección ¿Qué es una OVA? y las tarjetas, y vuelve a intentar 📚'));
+  div.scrollIntoView({behavior:'smooth'});
+}
+document.querySelectorAll('nav a').forEach(a=>a.addEventListener('click',()=>{document.querySelectorAll('nav a').forEach(x=>x.classList.remove('act'));a.classList.add('act');}));
+</script>
+</body>
+</html>
